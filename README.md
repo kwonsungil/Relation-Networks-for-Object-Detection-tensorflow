@@ -1,100 +1,20 @@
+# Relation-Networks-for-Object-Detection-tensorflow
+Relation Networks for Object Detection reproducing project with tensorflow
 
-# Abstract
-## This is a tensorflow re-implementation of Faster rcnn by LongJun<br>
-[Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks](https://arxiv.org/abs/1506.01497)<br>
+###프로젝트를 크게 2개로 분리
 
-With VGG16(conv5_3):<br>
-Train on VOC2007 trainval and test on VOC2007 test, the mean_ap is 71.0%<br>
-Train on VOC2007+VOC2012 trainval and test on VOC2007 test, the mean_ap is 76.3%<br>
-(You can change the train set and test set for more results)<br>
-More backbone network(such as Resnet) will be supported soon
+### 프로젝트를 크게 2개로 분리
+1. backbone network인 Faster-RCNN 구현
+ - https://github.com/kwonsungil/Faster-RCNN
 
-Test image show:
-![test_img](https://github.com/LongJun123456/Faster-rcnn-tensorflow/blob/master/test_img/87.jpg)
-![test_img](https://github.com/LongJun123456/Faster-rcnn-tensorflow/blob/master/test_img/39.jpg)
-![test_img](https://github.com/LongJun123456/Faster-rcnn-tensorflow/blob/master/test_img/9.jpg)
-![test_img](https://github.com/LongJun123456/Faster-rcnn-tensorflow/blob/master/test_img/138.jpg)
-![test_img](https://github.com/LongJun123456/Faster-rcnn-tensorflow/blob/master/test_img/140.jpg)
-# My Development Environment
-1.python 3.6(anaconda recommend)<br>
-2.cuda9.0<br>
-3.opencv(cv2)<br>
-4.tfplot(You might need to install this lib by pip)<br>
-5.tensorflow==1.9<br>
-
-# Pascal VOC data_set download(if you only train your net on VOC2007, you can just download VOC2007_trainval_06 and VOCtest_06-Nov-2007)
-[VOC2007_trainval_06](http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar)<br>
-[VOCtest_06-Nov-2007](http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtest_06-Nov-2007.tar)<br>
-[VOCtrainval_11-May-2012](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar)<br>
-
-Please change the data format as fellow 
-```
-├── dataset
-      ├── VOCdevkit
-      │   ├── VOC2007_trainval
-      │       ├── Annotations
-      │       ├── JPEGImages
-      |       ├── ImageSets
-      │   ├── VOC2007_test
-      │       ├── Annotations
-      │       ├── JPEGImages
-      |       ├── ImageSets
-      │   ├── VOC2012_trainval
-      │       ├── Annotations
-      │       ├── JPEGImages
-      │       ├── ImageSets
-```
-# Download pretrained Model (If you want to train your own model, you can skip this step)<br>
-[Model download](https://pan.baidu.com/s/1RWXD_aSB3rqGcXc5XeNltw). pass key is c0eb <br>
-
-You can download pretrained model and put into $PATH_ROOT/output after uncompressing<br>
-You can also train your own model by the method below<br>
-test on pascal data set or your own data set(Please convert your data set into pascal format before testing):<br>
-```
-For map_compute:
-cd $PATH_ROOT
-python test.py
-```
-```
-For img_show:
-cd $PATH_ROOT
-python test_show_image.py
-```
-# Train your own model
-1. Download VGG16 pretrained weights [VGG16_weights](https://pan.baidu.com/s/1JW2sUvt6omhTKqq2dK_z6Q). pass key is txqw<br>
-2. uncompress the VGG16 pretrained weights and put the weight into folder 'model_pretrained'
-3. Modify parameters (such as train_imdb_name, test_imdb_name, MAX_ITER, etc.) in $PATH_ROOT/config.py
-Then input:
-```
-cd $PATH_ROOT
-python train.py
-```
-
-# Tensorboard
-```
-tensorboard --logdir $SUMMARY_PATH
-```
-The summary is in the folder 'summary_out/year_month_day_hour_minute', For example:<br>
-tensorboard --logdir /LongJun/Faster-rcnn-tensorflow/summary_out/2018_04_19_21_13   You need to choose the latest folder so you can see the newest summary
-![tensorboard](https://github.com/LongJun123456/Faster-rcnn-tensorflow/blob/master/test_img/11.png)
-![tensorboard](https://github.com/LongJun123456/Faster-rcnn-tensorflow/blob/master/test_img/22.png)
-
-# Eval and test
-```
-For map_compute:
-cd $PATH_ROOT
-python test.py
-```
-```
-For img_show:
-cd $PATH_ROOT
-python test_show_image.py
-```
-You can change the img_save_num for the num of image showing in config.py, default 2
-
-# End
-More dection network  re-implementation of tensorflow will be uploaded in the feature, FPN,YOLO..<br>
-If it helps, please give me a star. Thank you very much
+2. 기존 Faster-RCNN model을 이용하여 논문의 핵심인 Relation Module을 구현하고 테스트
+ - https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow
 
 
+###일정(https://github.com/rp12-study/rp12-hub/wiki)  
+
+### 일정(https://github.com/rp12-study/rp12-hub/wiki)  
+1. Paper Review
+2. ResNet 구현 및 학습
+3. Faster-RCNN 구현 및 학습
 
