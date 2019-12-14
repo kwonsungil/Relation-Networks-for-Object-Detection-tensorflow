@@ -1,11 +1,14 @@
 import tensorflow as tf
 import config as cfg
+import numpy as np
 
 class RelationModule:
-    def __init__(self, appearance_feature, geometric_feature, is_duplicated = False):
+    def __init__(self, appearance_feature, geometric_feature):
         # number of relation
         self.Nr = 16
         # appearance feature dimension
+        # general relation = 1024
+        # duplicate remover = 1024 => 64 * 16
         self.appearance_feature_dim = 1024
         # geo feature dimension
         self.geo_feature_dim = 64
@@ -18,46 +21,37 @@ class RelationModule:
             result.append(self.relation(appearance_feature, geometric_feature))
 
         self.result = tf.concat(result, axis=1)
-        print(self.result)
+        self.result.set_shape([None, self.appearance_feature_dim])
 
     def relation(self, appearance_feature, geometric_feature):
-        # (number of RoI * 7 * 7 * 1024,, 1024)
-        num_roi = appearance_feature.shape[0]
+        # (number of RoI * 7 * 7 * 1024, 1024)
+        num_roi = tf.shape(appearance_feature)[0]
         # num_roi = cfg.anchor_batch
-        Wk = tf.layers.dense(appearance_feature, self.key_feature_dim, use_bias = True,
-                                kernel_initializer=tf.random_normal_initializer(mean=0.0, stddev=0.01),
-                                activation=tf.nn.relu)
+        Wk = tf.layers.dense(appearance_feature, self.key_feature_dim, use_bias=True,
+                             kernel_initializer=tf.random_normal_initializer(mean=0.0, stddev=0.01),
+                             activation=tf.nn.relu)
         Wq = tf.layers.dense(appearance_feature, self.key_feature_dim, use_bias=True,
                              kernel_initializer=tf.random_normal_initializer(mean=0.0, stddev=0.01),
                              activation=tf.nn.relu)
-        Wg = tf.layers.dense(tf.nn.relu(self.PositionalEmbedding(geometric_feature)), 1, use_bias=True,
+        # output [num_roi, num_roi, 64] => [num_roi, num_roi, 1]
+        Wg = tf.layers.dense(self.PositionalEmbedding(geometric_feature), 1, use_bias=True,
                              kernel_initializer=tf.random_normal_initializer(mean=0.0, stddev=0.01),
                              activation=tf.nn.relu)
-        print('Wg :  ', Wg)
+                             # activation=None)
         Wv = tf.layers.dense(appearance_feature, self.key_feature_dim, use_bias=True,
                              kernel_initializer=tf.random_normal_initializer(mean=0.0, stddev=0.01),
                              activation=tf.nn.relu)
 
         Wk = tf.reshape(Wk, [1, num_roi, self.key_feature_dim])
         Wq = tf.reshape(Wq, [num_roi, 1, self.key_feature_dim])
-        print('Wk : ', Wk)
-        print('Wq : ', Wq)
         scaled_dot = tf.reduce_sum([Wk * Wq], axis=-1) / tf.sqrt(tf.to_float(self.key_feature_dim))
-        # scaled_dot = Wk * Wq / tf.sqrt(tf.to_float(self.key_feature_dim))
-        print('scaled_dot : ', scaled_dot)
-        print('Wg : ', Wg)
         Wg = tf.reshape(Wg, [num_roi, num_roi])
-        print('Wg : ', Wg)
         Wa = tf.reshape(scaled_dot, [num_roi, num_roi])
 
-        Wmn = tf.log(tf.clip_by_value(Wg, clip_value_min = 1e-6, clip_value_max=100000000)) + Wa
+        Wmn = tf.log(tf.clip_by_value(Wg, clip_value_min=1e-6, clip_value_max=1)) + Wa
         Wmn = tf.nn.softmax(Wmn, axis=1)
-        print('Wmn : ', Wmn)
         Wmn = tf.reshape(Wmn, [num_roi, num_roi, 1])
-        print('Wmn : ', Wmn)
-        print('Wv : ', Wv)
         Wv = tf.reshape(Wv, [num_roi, 1, -1])
-        print('Wv : ', Wv)
 
         return tf.reduce_sum(Wmn * Wv, axis=-2)
 
@@ -70,20 +64,24 @@ class RelationModule:
         w = (xmax - xmin) + 1.
         h = (ymax - ymin) + 1.
 
-        delta_x = x - tf.reshape(x, [1, -1])
-        delta_x = tf.clip_by_value(tf.abs(delta_x / w), clip_value_min=1e-3, clip_value_max=100000000)
-        delta_x = tf.log(delta_x)
+        # 기존에 RoI에서 검증 하면 하면 불필요
+        x = tf.clip_by_value(x, clip_value_min=1e-3, clip_value_max=x)
+        y = tf.clip_by_value(y, clip_value_min=1e-3, clip_value_max=y)
+        w = tf.clip_by_value(w, clip_value_min=1e-3, clip_value_max=w)
+        h = tf.clip_by_value(h, clip_value_min=1e-3, clip_value_max=h)
 
+
+        delta_x = x - tf.reshape(x, [1, -1])
+        delta_x = tf.clip_by_value(tf.abs(delta_x / w), clip_value_min=1e-3, clip_value_max=1)
+        delta_x = tf.log(delta_x)
         delta_y = y - tf.reshape(y, [1, -1])
-        delta_y = tf.clip_by_value(tf.abs(delta_y / h), clip_value_min=1e-3, clip_value_max=100000000)
+        delta_y = tf.clip_by_value(tf.abs(delta_y / h), clip_value_min=1e-3, clip_value_max=1)
         delta_y = tf.log(delta_y)
 
         delta_w = tf.log(w / tf.reshape(w, [1, -1]))
         delta_h = tf.log(h / tf.reshape(h, [1, -1]))
         shape = tf.shape(delta_h)
 
-        print('delta_w : ', delta_w)
-        print('delta_h : ', delta_h)
         delta_x = tf.reshape(delta_x, [shape[0], shape[1], 1])
         delta_y = tf.reshape(delta_y, [shape[0], shape[1], 1])
         delta_w = tf.reshape(delta_w, [shape[0], shape[1], 1])
@@ -91,35 +89,43 @@ class RelationModule:
 
         position_mat = tf.concat([delta_x, delta_y, delta_w, delta_h], axis=-1)
 
-        # feat_range = torch.arange(dim_g / 8).cuda()
         feat_range = tf.range(dim_g / 8)
         dim_mat = feat_range / (dim_g / 8)
-        # dim_mat = tf.to_int32(dim_mat)
         dim_mat = 1 / (tf.pow(wave_len, dim_mat))
 
         dim_mat = tf.reshape(dim_mat, [1, 1, 1, -1])
         position_mat = tf.reshape(position_mat, [shape[0], shape[1], 4, -1])
-        # dim_mat = dim_mat.view(1, 1, 1, -1)
-        # position_mat = position_mat.view(shape[0], shape[1], 4, -1)
         position_mat = 100. * position_mat
 
         mul_mat = position_mat * dim_mat
         mul_mat = tf.reshape(mul_mat, [shape[0], shape[1], -1])
-        # mul_mat = mul_mat.view(shape[0], shape[1], -1)
         sin_mat = tf.sin(mul_mat)
         cos_mat = tf.cos(mul_mat)
+
         embedding = tf.concat((sin_mat, cos_mat), -1)
-        print('embedding : ', embedding)
         embedding.set_shape([None, None, 64])
+
+        # sess = tf.Session()
+        # sin_mat_v, cos_mat_v, embedding_v = sess.run([sin_mat, cos_mat, embedding])
+        # print('sin_mat : ', sin_mat_v[0,:,20])
+        # print('cos_mat : ', cos_mat_v[0,:,20])
+        # # print('sin_mat : ', sin_mat_v.shape)
+        # # print('cos_mat : ', cos_mat_v.shape)
+        # # print('embedding_v : ', embedding_v.shape)
+        # # print('embedding_v : ', embedding_v[0,:, 20])
+        # # print('embedding_v : ', np.where(embedding_v==np.NaN))
+        # # print('embedding_v : ', embedding_v==np.NaN)
 
         return embedding
 
 
-
 if __name__ == '__main__':
-    appearance_feature = tf.random_normal(shape=[256, 7, 7, 1024])
-    geometric_feature = tf.random_normal(shape=[256, 4])
+    appearance_feature = tf.random_normal(dtype=tf.float32, shape=[256, 7, 7, 1024])
+    geometric_feature = tf.random_normal(dtype=tf.float32, shape=[256, 4])
 
     appearance_feature = tf.layers.flatten(appearance_feature)
     print(appearance_feature)
     rm = RelationModule(appearance_feature, geometric_feature)
+    sess = tf.Session()
+    sess.run(tf.global_variables_initializer())
+    print(sess.run([rm.result]))
