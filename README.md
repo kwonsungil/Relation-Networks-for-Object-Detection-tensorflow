@@ -30,7 +30,7 @@ Relation Networks for Object Detection reproducing project with tensorflow
   - _head_to_tail_relation : 2 fully connected layers + 2 relation modules
  3. train.py 실행
  
- ## 테스트
+ ### 테스트
  1. 학습과 마찬가지로 config.py 수정
  2. validate.py 실행
  
