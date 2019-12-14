@@ -35,7 +35,7 @@ Relation Networks for Object Detection reproducing project with tensorflow
  2. validate.py 실행
  
  ### 결과
- 1. VOC2007 + VOC2012으로 학습 후 VOC2007 Test 결과
-  : MAP 0.665(base Faster-RCNN)
-  : MAP 0.611(Faster-RCNN + Relation Module) 
+ 1. VOC2007 + VOC2012으로 학습 후 VOC2007 Test 결과  
+  : MAP 0.665(base Faster-RCNN)  
+  : MAP 0.611(Faster-RCNN + Relation Module)   
 
