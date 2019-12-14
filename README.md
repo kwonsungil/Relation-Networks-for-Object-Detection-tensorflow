@@ -9,7 +9,9 @@ Relation Networks for Object Detection reproducing project with tensorflow
  - https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow
 
 ### 일정(https://github.com/rp12-study/rp12-hub/wiki)  
-1. Paper Review
+1. Paper Review  
+ : 완료. 
 2. ResNet 구현 및 학습
-3. Faster-RCNN 구현 및 학습
+3. Faster-RCNN 구현 및 학습  
+4. 
 
