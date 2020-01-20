@@ -23,9 +23,9 @@
 ### 결과
 1. VOC2007 + VOC2012으로 학습 후 VOC2007 Test 결과(Validate.py)<br>
   : MAP 0.665(base Faster-RCNN)<br>
-![docs](https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/000144_baselin.jpg)
+  ![Alt text](https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/000144_baselin.jpg)
   : MAP 0.611(Faster-RCNN + Relation Module)<br>
-![docs](https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/000144_relation.jpg)
+  ![Alt text](https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/000144_relation.jpg)
   
 ### Core Module
 1. Relation Module
@@ -33,14 +33,14 @@
  ```
  python core/relation_module.py
  ```
- ![docs](https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/relation_module.png)
+ ![Alt text](https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/relation_module.png)
  
 2. Duplicate Remover
   : core/relation_module.py
   ```
   python core/relation_module.py
   ```
-  ![docs](https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/duplicat_remover.png)
+  ![Alt text](https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/duplicat_remover.png)
   
 ### Environment
 1. opencv
