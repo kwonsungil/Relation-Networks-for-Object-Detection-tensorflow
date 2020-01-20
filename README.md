@@ -12,29 +12,35 @@
  - Relation Networks for Object Detection : https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow
 
 ### 일정(https://github.com/rp12-study/rp12-hub/wiki)  
-1. Paper Review  
- - 완료  
-2. ResNet 구현 및 ImageNet학습
- - 완료
-3. Faster-RCNN 구현 및 학습
- - 진행 중
-4. Relation Module 구현 및 학습
- - 완료
-5. Duplicate Remover 구현 및 학습
- - 완료
-6. Duplicate Remover loss 추가
- - 진행 중
- 
+1. Paper Review(완료)<br>
+2. ResNet 구현 및 ImageNet학습(완료)<br>
+3. Faster-RCNN 구현 및 학습(진행 중)<br>
+4. Relation Module 구현 및 학습(완료)<br>
+5. Duplicate Remover 구현 및 학습(완료)<br>
+5. Duplicate Remover 구현 및 학습(완료)<br>
+6. Duplicate Remover loss 추가(진행 중)<br>
+
 ### 결과
 1. VOC2007 + VOC2012으로 학습 후 VOC2007 Test 결과(Validate.py)<br>
   : MAP 0.665(base Faster-RCNN)<br>
-![alt text](https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/000144_baselin.jpg)
+![docs](https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/000144_baselin.jpg)
   : MAP 0.611(Faster-RCNN + Relation Module)<br>
-![alt text](https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/000144_relation.jpg)
+![docs](https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/000144_relation.jpg)
   
 ### Core Module
 1. Relation Module
- : core/relation_module.py 
+ : core/relation_module.py
+ ```
+ python core/relation_module.py
+ ```
+ ![docs](https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/relation_module.png)
+ 
+2. Duplicate Remover
+  : core/relation_module.py
+  ```
+  python core/relation_module.py
+  ```
+  ![docs](https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/duplicat_remover.png)
   
 ### Environment
 1. opencv
@@ -42,9 +48,9 @@
 3. tensorflow>=1.9
 
 ### Dataset, Model checkpoints files
-[VOC2007_trainval_06](http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar)<br>
-[VOCtest_06-Nov-2007](http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtest_06-Nov-2007.tar)<br>
-[VOCtrainval_11-May-2012](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar)<br>
+[VOC2007 train download](http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar)<br>
+[VOC2007 test download](http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtest_06-Nov-2007.tar)<br>
+[VOC2012 train download](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar)<br>
 
 ```
   ├── dataset
