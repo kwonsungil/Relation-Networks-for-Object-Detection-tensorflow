@@ -8,7 +8,7 @@
 
 2. 기존 Faster-RCNN model을 이용하여 논문의 핵심인 Relation Module을 구현하고 테스트
  - Faster-RCNN : https://github.com/LongJun123456/Faster-rcnn-tensorflow
- - https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow
+ - Relation Networks for Object Detection : https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow
 
 ### 일정(https://github.com/rp12-study/rp12-hub/wiki)  
 1. Paper Review  
@@ -25,12 +25,15 @@
  - 진행 중
  
 ### 결과
-1. VOC2007 + VOC2012으로 학습 후 VOC2007 Test 결과(Validate.py)
-  : MAP 0.665(base Faster-RCNN)  
-  : MAP 0.611(Faster-RCNN + Relation Module)
+1. VOC2007 + VOC2012으로 학습 후 VOC2007 Test 결과(Validate.py)<br>
+  : MAP 0.665(base Faster-RCNN)<br>
+![docs]https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/000144_baselin.jpg  
+  : MAP 0.611(Faster-RCNN + Relation Module)<br>
+![docs]https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/000144_relation.jpg
   
-### Relation Module
-
+### Core Module
+1. Relation Module
+ : core/relation_module.py 
   
 ### Environment
 1. opencv
