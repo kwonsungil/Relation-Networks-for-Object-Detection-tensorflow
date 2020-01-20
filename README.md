@@ -1,5 +1,5 @@
 # Relation-Networks-for-Object-Detection-tensorflow
-##Relation Networks for Object Detection reproducing project with tensorflow<br>
+### Relation Networks for Object Detection reproducing project with tensorflow<br>
 [Relation Networks for Object Detection](https://arxiv.org/abs/1711.11575)
 
 ### 프로젝트를 크게 2개로 분리
@@ -27,9 +27,9 @@
 ### 결과
 1. VOC2007 + VOC2012으로 학습 후 VOC2007 Test 결과(Validate.py)<br>
   : MAP 0.665(base Faster-RCNN)<br>
-![docs]https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/000144_baselin.jpg  
+![alt text]https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/000144_baselin.jpg  
   : MAP 0.611(Faster-RCNN + Relation Module)<br>
-![docs]https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/000144_relation.jpg
+![alt text]https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/000144_relation.jpg
   
 ### Core Module
 1. Relation Module
@@ -63,12 +63,12 @@
 ```
 
 Downloads Resnet checkpoints(resnet_v2_101.ckpt)
+[Download](https://drive.google.com/open?id=14SbExSsNi4Lfkx-euhtUbMqbEcsS1vfj)
 ```
   ├── ROOT
       ├── model_pretrained
       │   ├── resnet_v2_101.ckpt
 ```
-[Download](https://drive.google.com/open?id=14SbExSsNi4Lfkx-euhtUbMqbEcsS1vfj)
 
 Downloads Faster RCNN baseline
 [Download](https://drive.google.com/open?id=1cCjkkLi07flLTRYw5--EYLYYy7yvDMPG)
