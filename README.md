@@ -1,6 +1,7 @@
-# Relation-Networks-for-Object-Detection-tensorflow
-### Relation Networks for Object Detection reproducing project with tensorflow<br>
+# Relation Networks for Object Detection
+### Relation Networks for Object Detection reproducing project with tensorflow project<br>
 [Relation Networks for Object Detection](https://arxiv.org/abs/1711.11575)
+[Paper Review](https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs)
 
 ### 프로젝트를 크게 2개로 분리
 1. backbone network인 Faster-RCNN 구현
@@ -27,9 +28,9 @@
 ### 결과
 1. VOC2007 + VOC2012으로 학습 후 VOC2007 Test 결과(Validate.py)<br>
   : MAP 0.665(base Faster-RCNN)<br>
-![alt text]https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/000144_baselin.jpg  
+![alt text](https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/000144_baselin.jpg)
   : MAP 0.611(Faster-RCNN + Relation Module)<br>
-![alt text]https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/000144_relation.jpg
+![alt text](https://github.com/kwonsungil/Relation-Networks-for-Object-Detection-tensorflow/tree/final-branch/docs/000144_relation.jpg)
   
 ### Core Module
 1. Relation Module
