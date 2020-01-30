@@ -22,10 +22,11 @@
 
 ### 결과
 1. VOC2007 + VOC2012으로 학습 후 VOC2007 Test 결과(Validate.py)<br>
-  : MAP 0.665(base Faster-RCNN)<br>
-  <img width="100%" src="docs/000144_baselin.jpg" style="max-width:100%;">
-  : MAP 0.611(Faster-RCNN + Relation Module)<br>
-  <img width="100%" src="docs/000144_relation.jpg" style="max-width:100%;">
+
+Model|IoU|MAP|결과
+:---:|:---:|:---:|:---:
+Faster-RCNN + 2FC|0.5|0.665|<img width="100%" src="docs/000144_baselin.jpg">
+Faster-RCNN + 2RM|0.5|0.611|<img width="100%" src="docs/000144_relation.jpg">
   
   
 ### Core Module
